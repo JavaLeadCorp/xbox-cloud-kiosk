@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Xbox Cloud Gaming
+Comment=Auto-launch Xbox Cloud Gaming kiosk on login
+Exec=/opt/xbox-cloud-kiosk/xbox-cloud-kiosk --no-sandbox
+Icon=xbox-cloud-kiosk
+Terminal=false
+Type=Application
+Categories=Game;
+X-GNOME-Autostart-enabled=true
+StartupNotify=false

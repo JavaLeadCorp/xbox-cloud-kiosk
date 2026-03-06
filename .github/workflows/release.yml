@@ -1,0 +1,77 @@
+name: Build & Release
+
+# Triggers whenever you push a version tag like v1.0.0
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Check out the repo ──────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Node.js ──────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ── 3. Install rpmbuild (needed for .rpm target) ───────────────────────
+      - name: Install rpmbuild
+        run: sudo apt-get install -y rpm
+
+      # ── 4. Install npm dependencies ────────────────────────────────────────
+      - name: Install dependencies
+        run: npm install
+
+      # ── 5. Build all package formats ───────────────────────────────────────
+      - name: Build all packages
+        run: npx electron-builder --linux AppImage deb rpm pacman
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 6. List what was produced (helpful for debugging) ──────────────────
+      - name: List dist output
+        run: ls -lh dist/
+
+      # ── 7. Publish a GitHub Release with all files attached ────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Xbox Cloud Gaming Kiosk ${{ github.ref_name }}"
+          body: |
+            ## Xbox Cloud Gaming Kiosk ${{ github.ref_name }}
+
+            Download the right file for your distro:
+
+            | Distro | File |
+            |---|---|
+            | **Arch / Bazzite / Manjaro** | `.pkg.tar.zst` |
+            | **Fedora / RHEL** | `.rpm` |
+            | **Debian / Ubuntu / Mint** | `.deb` |
+            | **Any Linux distro** | `.AppImage` |
+
+            ### Install instructions
+            - `.deb` → `sudo dpkg -i xbox-cloud-kiosk_*.deb`
+            - `.rpm` → `sudo dnf install xbox-cloud-kiosk-*.rpm`
+            - `.pkg.tar.zst` → `sudo pacman -U xbox-cloud-kiosk-*.pkg.tar.zst`
+            - `.AppImage` → `chmod +x *.AppImage && ./Xbox*.AppImage`
+
+            After installing, clone the repo and run `bash install.sh` to add the app to your launcher and enable auto-launch on login.
+
+            > Fortnite is free on Xbox Cloud Gaming — no Game Pass needed. Sign in with any Microsoft account.
+          files: |
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/*.pacman
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

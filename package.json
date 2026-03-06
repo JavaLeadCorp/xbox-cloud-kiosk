@@ -1,0 +1,72 @@
+{
+  "name": "xbox-cloud-kiosk",
+  "version": "1.0.0",
+  "description": "Fullscreen Xbox Cloud Gaming kiosk app for Linux",
+  "main": "src/main.js",
+  "author": "Your Name",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build:appimage": "electron-builder --linux AppImage",
+    "build:deb": "electron-builder --linux deb",
+    "build:rpm": "electron-builder --linux rpm",
+    "build:arch": "electron-builder --linux pacman",
+    "build:all": "electron-builder --linux AppImage deb rpm pacman"
+  },
+  "build": {
+    "appId": "com.kiosk.xboxcloud",
+    "productName": "Xbox Cloud Gaming",
+    "files": [
+      "src/**/*"
+    ],
+    "linux": {
+      "icon": "assets/icon.png",
+      "category": "Game",
+      "synopsis": "Xbox Cloud Gaming kiosk",
+      "description": "Fullscreen kiosk app for Xbox Cloud Gaming. Navigation locked to Xbox/Microsoft domains."
+    },
+    "deb": {
+      "packageName": "xbox-cloud-kiosk",
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1"
+      ]
+    },
+    "rpm": {
+      "packageName": "xbox-cloud-kiosk",
+      "depends": [
+        "gtk3",
+        "libnotify",
+        "nss",
+        "libXScrnSaver",
+        "libXtst",
+        "xdg-utils",
+        "at-spi2-atk",
+        "libuuid"
+      ]
+    },
+    "pacman": {
+      "packageName": "xbox-cloud-kiosk",
+      "depends": [
+        "gtk3",
+        "libnotify",
+        "nss",
+        "libxss",
+        "libxtst",
+        "xdg-utils",
+        "at-spi2-core",
+        "util-linux-libs"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^40.8.0",
+    "electron-builder": "^26.8.1"
+  }
+}

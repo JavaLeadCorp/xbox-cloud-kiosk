@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Xbox Cloud Gaming
+Comment=Play Xbox Cloud Gaming in fullscreen kiosk mode
+Exec=/opt/xbox-cloud-kiosk/xbox-cloud-kiosk --no-sandbox
+Icon=xbox-cloud-kiosk
+Terminal=false
+Type=Application
+Categories=Game;
+StartupNotify=true
