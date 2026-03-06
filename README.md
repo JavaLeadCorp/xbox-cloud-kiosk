@@ -3,7 +3,9 @@
 A fullscreen Electron kiosk app for Linux that opens [Xbox Cloud Gaming](https://www.xbox.com/en-US/play) as if it were a native app — no browser chrome, no address bar, no way to navigate away from Xbox.
 
 Works on **any Linux distro**: Arch, Bazzite, Fedora, Ubuntu, Debian, Mint, Pop!_OS, Manjaro, and more.
+
 Also Works on **MacOS** :Simply download, cd into the folder run npm install && start
+
 ---
 
 ## Features
